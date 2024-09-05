@@ -1,14 +1,12 @@
-'use client'
 import UploadInventory from '@/components/upload-inventory'
 import DataTable from '@/components/data-table'
 import Header from '@/components/header'
-import { useItems } from '@/hooks/items'
+import { get } from '@/actions/items.actions'
 import { Spinner } from '@nextui-org/react'
 import Navigation from '@/components/navigation'
 
-export default function Page() {
-  const { data, isLoading } = useItems()
-  console.log(data)
+export default async function Page() {
+  const data = await get()
 
   return (
     <main className="min-h-screen">
@@ -19,13 +17,7 @@ export default function Page() {
           description="Revisa o agrega los productos del inventario"
           button={<UploadInventory />}
         />
-        {isLoading || !data ? (
-          <div className="mx-auto flex items-center justify-center">
-            <Spinner size="lg" color="primary" />
-          </div>
-        ) : (
-          <DataTable data={data as any} />
-        )}
+        <DataTable data={data as any} />
       </div>
     </main>
   )
