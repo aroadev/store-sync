@@ -38,7 +38,7 @@ export default function CreateItemForm({ onClose }: { onClose: () => void }) {
       {isError && (
         <div
           role="error"
-          className="border-danger text-danger-foreground rounded border p-2.5 text-sm"
+          className="rounded border border-danger p-2.5 text-sm text-danger-foreground"
         >
           Ocurrió un error al crear el artículo
         </div>
@@ -67,8 +67,8 @@ export default function CreateItemForm({ onClose }: { onClose: () => void }) {
               items={types}
               isRequired
               variant="bordered"
-              label="Estado del Artículo"
-              placeholder="Seleccione un estado..."
+              label="Tipo de Artículo"
+              placeholder="Seleccione el tipo..."
               isDisabled={isPending}
               errorMessage={fieldState.error?.message}
               isInvalid={!!fieldState.error}

@@ -20,16 +20,27 @@ import {
   Pagination,
   Tooltip,
 } from '@nextui-org/react'
+import { useRemoveItem } from '@/hooks/items'
+import { toast } from 'sonner'
 
 const columns = [
   { key: 'name', label: 'Artículo' },
   { key: 'brandId', label: 'Marca' },
+  { key: 'type', label: 'Tipo' },
   { key: 'state', label: 'Estado' },
   { key: 'quantity', label: 'Cantidad' },
   { key: 'actions', label: 'Acciones' },
 ]
 
 const Actions = ({ id }: { id: string }) => {
+  const { mutate } = useRemoveItem()
+
+  const handleDelete = () => {
+    if (confirm('¿Estás seguro de eliminar este artículo?')) {
+      mutate(id)
+    } else return toast.info('Operación cancelada')
+  }
+
   return (
     <div className="flex items-center gap-x-2">
       <Tooltip color="primary" content="Editar">
@@ -38,7 +49,13 @@ const Actions = ({ id }: { id: string }) => {
         </Button>
       </Tooltip>
       <Tooltip color="danger" content="Eliminar">
-        <Button color="danger" variant="light" isIconOnly size="sm">
+        <Button
+          color="danger"
+          variant="light"
+          isIconOnly
+          size="sm"
+          onClick={handleDelete}
+        >
           <Delete02Icon className="h-5 w-5" />
         </Button>
       </Tooltip>
@@ -75,6 +92,8 @@ const renderCell = (item: Inventory, key: React.Key) => {
       return item.name
     case 'brandId':
       return item.brand.name
+    case 'type':
+      return item.type
     case 'state':
       return stateMap[item.state]
     case 'quantity':
